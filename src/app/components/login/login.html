@@ -1,0 +1,45 @@
+<div class="login-container">
+    <div class="login-card">
+        <div class="brand-header">
+            <h2>Sip & Dine 🍽️</h2>
+            <p class="subtitle">Quick & free login via WhatsApp</p>
+        </div>
+
+        <div class="auth-pane">
+            @if (!otpSentStep()) {
+            <div class="form-group">
+                <label>Your Mobile Number</label>
+                <div class="input-with-prefix">
+                    <span class="prefix">+91</span>
+                    <input type="tel" [(ngModel)]="phoneNumber" placeholder="98765 43210" maxlength="10" />
+                </div>
+                <p class="hint-text">We'll open WhatsApp with a secure verification code instantly.</p>
+            </div>
+            <button class="btn whatsapp-btn" (click)="sendViaWhatsApp()">
+                Open WhatsApp & Get Code 🟢
+            </button>
+            } @else {
+            <div class="verification-step-box">
+                <div class="wa-status-banner">
+                    <span>📱 WhatsApp Opened!</span>
+                </div>
+                <p class="instruction-text">
+                    1. Tap <strong>Send</strong> in your WhatsApp app to send the code to Sip & Dine.<br>
+                    2. Your code is: <strong class="highlight-code">{{ generatedOtp }}</strong><br>
+                    3. Enter or confirm it below to log in:
+                </p>
+
+                <div class="form-group">
+                    <input type="text" [(ngModel)]="enteredOtp" placeholder="Enter 4-digit code" maxlength="4"
+                        class="otp-input" />
+                </div>
+
+                <button class="btn whatsapp-btn" (click)="verifyWhatsAppLogin()">
+                    Confirm & Login 🚀
+                </button>
+                <button class="text-btn" (click)="resetWhatsAppFlow()">← Change Phone Number</button>
+            </div>
+            }
+        </div>
+    </div>
+</div>

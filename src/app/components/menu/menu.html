@@ -1,0 +1,106 @@
+<div class="menu-container">
+    <!-- Header with Brand Name / Logo -->
+    <header class="menu-header">
+        <div class="brand-logo-container">
+            <img src="sipndine.jpg" alt="Sip & Dine Logo" class="restaurant-logo-img" />
+            <div class="brand-text">
+                <h1>Sip & Dine</h1>
+                <span class="sub-brand">Restaurant & Caterer</span>
+            </div>
+        </div>
+        <div class="user-profile">
+            @if (cartService.isLoggedIn()) {
+            <span class="badge-online">🟢 +91 {{ cartService.loggedInPhone() }}</span>
+            } @else {
+            <span>Welcome Guest</span>
+            }
+        </div>
+    </header>
+
+    <!-- Sleek Floating WhatsApp Login Bar for Guests -->
+    @if (!cartService.isLoggedIn()) {
+    <div class="sleek-auth-bar">
+        <div class="auth-bar-text">
+            <span>👋 Hey Foodie! Login with WhatsApp for fast checkout.</span>
+        </div>
+        <button class="sleek-whatsapp-login-btn" (click)="openLoginModal()">
+            <span>🟢 WhatsApp Login</span>
+        </button>
+    </div>
+    } @else {
+    <div class="sleek-auth-bar logged-in">
+        <span>✅ Authenticated via WhatsApp</span>
+        <button class="logout-link" (click)="cartService.logoutUser()">Logout</button>
+    </div>
+    }
+
+    <!-- Category Pills / Selector -->
+    <div class="categories-wrapper">
+        <div class="categories-scroll">
+            @for (cat of categories; track cat) {
+            <button [class.active]="selectedCategory() === cat" (click)="selectCategory(cat)" class="category-pill">
+                {{ cat }}
+            </button>
+            }
+        </div>
+    </div>
+
+    <!-- Dishes Collage / Grid -->
+    <main class="dishes-grid-container">
+        <h2 class="section-title">{{ selectedCategory() }} Menu</h2>
+
+        <div class="dishes-grid">
+            @for (dish of filteredDishes(); track dish.id) {
+            <div class="dish-card">
+                <div class="image-wrapper">
+                    <img [src]="dish.image" [alt]="dish.name" loading="lazy" />
+                    <span class="dish-category-badge">{{ dish.category }}</span>
+                </div>
+                <div class="dish-info">
+                    <h3>{{ dish.name }}</h3>
+                    <p class="dish-desc">{{ dish.description }}</p>
+                    <div class="price-action-row">
+                        <span class="dish-price">₹{{ dish.price }}</span>
+
+                        <!-- + / - Item Selector Controls -->
+                        <div class="counter-control">
+                            @if (getQty(dish.id) > 0) {
+                            <button class="counter-btn" (click)="removeFromCart(dish.id)">-</button>
+                            <span class="counter-value">{{ getQty(dish.id) }}</span>
+                            }
+                            <button class="counter-btn add-btn" (click)="addToCart(dish.id)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </main>
+
+    <!-- Professional Footer with Branding & Contact Info -->
+    <footer class="restaurant-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Sip & Dine <span>Restaurant & Caterer</span></h3>
+                <p>Serving bold flavours and unforgettable culinary experiences.</p>
+            </div>
+            <div class="footer-contact">
+                <p>📞 <strong>Call Now:</strong> <a href="tel:+919831477917">+91 9831477917</a></p>
+                <p>📍 <strong>Location:</strong> 7A, Manmatha Dutta Road, Kolkata, West Bengal, India</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sticky RWD Floating Basket Bar -->
+    @if (totalItemsCount() > 0) {
+    <div class="floating-basket-bar">
+        <div class="basket-summary">
+            <span>{{ totalItemsCount() }} {{ totalItemsCount() === 1 ? 'item' : 'items' }} added</span>
+            <span class="basket-total">₹{{ totalPrice() }}</span>
+        </div>
+        <button class="btn-view-basket" (click)="goToBasket()">
+            View Basket 🛒
+        </button>
+    </div>
+    }
+</div>

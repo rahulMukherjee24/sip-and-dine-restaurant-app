@@ -1,0 +1,102 @@
+<div class="address-container">
+    <!-- Header -->
+    <header class="address-header">
+        <button class="back-btn" (click)="goBackToBasket()">← Back to Basket</button>
+        <h2>Select Delivery Address 📍</h2>
+    </header>
+
+    <main class="address-content">
+        <div class="address-layout">
+
+            <!-- Left Column: Address Selection / Form -->
+            <div class="address-selection-section">
+                <h3>Saved Addresses</h3>
+
+                <div class="saved-addresses-list">
+                    @for (addr of savedAddresses; track $index) {
+                    <div class="address-card" [class.selected]="selectedAddressIndex() === $index"
+                        (click)="selectSavedAddress($index)">
+                        <div class="radio-indicator"></div>
+                        <div class="address-details">
+                            <h4>{{ addr.fullName }} <span>{{ addr.phone }}</span></h4>
+                            <p>{{ addr.street }}, {{ addr.city }} - {{ addr.pincode }}</p>
+                            @if (addr.landmark) {
+                            <span class="landmark">Landmark: {{ addr.landmark }}</span>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <!-- Add New Address Button / Form Toggle -->
+                <button class="btn add-new-toggle-btn" (click)="toggleNewAddressForm()">
+                    + Add New Address
+                </button>
+
+                @if (showNewAddressForm()) {
+                <form class="new-address-form" (submit)="confirmAddress($event)">
+                    <h3>Enter New Address</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" [(ngModel)]="newAddress.fullName" name="fullName"
+                                placeholder="Rahul Sharma" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" [(ngModel)]="newAddress.phone" name="phone" placeholder="9876543210"
+                                required />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Street Address / Flat / Area</label>
+                        <input type="text" [(ngModel)]="newAddress.street" name="street"
+                            placeholder="Flat No, Building, Street Name" required />
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" [(ngModel)]="newAddress.city" name="city" placeholder="Bangalore"
+                                required />
+                        </div>
+                        <div class="form-group">
+                            <label>Pin Code</label>
+                            <input type="text" [(ngModel)]="newAddress.pincode" name="pincode" placeholder="560001"
+                                required />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Landmark (Optional)</label>
+                        <input type="text" [(ngModel)]="newAddress.landmark" name="landmark"
+                            placeholder="Near public park..." />
+                    </div>
+                </form>
+                }
+            </div>
+
+            <!-- Right Column: Order Summary Preview -->
+            <div class="order-preview-section">
+                <div class="preview-card">
+                    <h3>Order Overview</h3>
+                    <div class="preview-row">
+                        <span>Total Items</span>
+                        <span>{{ cartService.basketItems().length }} items</span>
+                    </div>
+                    <div class="preview-row">
+                        <span>Grand Total</span>
+                        <span class="total-amount">₹{{ cartService.grandTotal() }}</span>
+                    </div>
+
+                    <button class="btn confirm-address-btn" (click)="confirmAddress($event)">
+                        Deliver Here & Proceed ➔
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>

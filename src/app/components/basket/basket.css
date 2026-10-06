@@ -1,0 +1,209 @@
+.basket-container {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-bottom: 40px;
+}
+
+.basket-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 5%;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.basket-header h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.back-btn {
+    background: transparent;
+    border: none;
+    color: #ff7e5f;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.basket-content {
+    max-width: 1100px;
+    margin: 24px auto;
+    padding: 0 5%;
+}
+
+/* Empty State */
+.empty-basket {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.empty-icon {
+    font-size: 48px;
+}
+
+.empty-basket h3 {
+    margin: 16px 0 8px 0;
+    color: #333;
+}
+
+.empty-basket p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Grid Layout for Basket */
+.basket-grid-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 768px) {
+    .basket-grid-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.items-section h3,
+.bill-summary-section h3 {
+    font-size: 18px;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+.basket-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.basket-item-card {
+    background: white;
+    padding: 12px 16px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.basket-item-card img {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-details h4 {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+    color: #333;
+}
+
+.item-price {
+    font-size: 13px;
+    color: #777;
+}
+
+/* Counter Control */
+.counter-control {
+    display: flex;
+    align-items: center;
+    background: #fff0ec;
+    border-radius: 8px;
+    border: 1px solid #ff7e5f;
+    overflow: hidden;
+}
+
+.counter-btn {
+    background: transparent;
+    border: none;
+    color: #ff7e5f;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 4px 10px;
+    cursor: pointer;
+}
+
+.counter-btn.add-btn {
+    background: #ff7e5f;
+    color: white;
+}
+
+.counter-value {
+    padding: 0 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+}
+
+.item-subtotal {
+    font-weight: 700;
+    font-size: 15px;
+    color: #333;
+    min-width: 60px;
+    text-align: right;
+}
+
+/* Bill Summary Card */
+.bill-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 80px;
+}
+
+.bill-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #555;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 16px 0;
+}
+
+.grand-total {
+    font-weight: 700;
+    font-size: 16px;
+    color: #333;
+}
+
+.checkout-btn {
+    width: 100%;
+    background: #ff7e5f;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: opacity 0.2s;
+}
+
+.checkout-btn:hover {
+    opacity: 0.9;
+}

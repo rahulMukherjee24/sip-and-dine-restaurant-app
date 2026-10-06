@@ -1,0 +1,129 @@
+<div class="payment-container">
+    <!-- Header -->
+    <header class="payment-header">
+        @if (!isOrderPlaced()) {
+        <button class="back-btn" (click)="goBackToAddress()">← Back to Address</button>
+        }
+        <h2>{{ isOrderPlaced() ? 'Order Confirmed 🎉' : 'Payment Gateway 💳' }}</h2>
+    </header>
+
+    <main class="payment-content">
+        @if (isOrderPlaced()) {
+        <!-- Order Success Confirmation Screen -->
+        <div class="success-card">
+            <div class="success-icon">✅</div>
+            <h3>Order Placed Successfully!</h3>
+            <p class="success-msg">Thank you for ordering with FlavorDash. Your delicious food is being prepared and
+                will arrive soon!</p>
+
+            <div class="order-summary-box">
+                <h4>Delivery Address</h4>
+                @if (cartService.deliveryAddress(); as addr) {
+                <p><strong>{{ addr.fullName }}</strong> ({{ addr.phone }})</p>
+                <p>{{ addr.street }}, {{ addr.city }} - {{ addr.pincode }}</p>
+                } @else {
+                <p>Standard Delivery Address</p>
+                }
+
+                <hr class="divider" />
+
+                <div class="summary-total-row">
+                    <span>Total Paid ({{ selectedMethod() | uppercase }})</span>
+                    <span class="highlight-price">₹{{ cartService.grandTotal() }}</span>
+                </div>
+            </div>
+
+            <button class="btn primary-btn" (click)="returnToHome()">Order More Food 🍽️</button>
+        </div>
+        } @else {
+        <div class="payment-layout">
+
+            <!-- Left: Payment Options Tabs & Forms -->
+            <div class="payment-methods-section">
+                <h3>Choose Payment Option</h3>
+
+                <div class="method-tabs">
+                    <button [class.active]="selectedMethod() === 'upi'" (click)="selectPaymentMethod('upi')">
+                        📱 UPI / QR
+                    </button>
+                    <button [class.active]="selectedMethod() === 'netbanking'"
+                        (click)="selectPaymentMethod('netbanking')">
+                        🏦 Net Banking
+                    </button>
+                    <button [class.active]="selectedMethod() === 'cash'" (click)="selectPaymentMethod('cash')">
+                        💵 Cash on Delivery
+                    </button>
+                </div>
+
+                <div class="method-form-container">
+                    <!-- UPI Form -->
+                    @if (selectedMethod() === 'upi') {
+                    <div class="payment-form-pane">
+                        <h4>Pay via UPI ID or Google Pay / PhonePe</h4>
+                        <div class="form-group">
+                            <label>Enter UPI ID / VPA</label>
+                            <input type="text" [(ngModel)]="upiId" placeholder="e.g. username@okhdfcbank" required />
+                        </div>
+                        <p class="hint-text">A payment verification request will be sent to your UPI app.</p>
+                    </div>
+                    }
+
+                    <!-- Net Banking Form -->
+                    @if (selectedMethod() === 'netbanking') {
+                    <div class="payment-form-pane">
+                        <h4>Select Your Bank</h4>
+                        <div class="bank-grid">
+                            @for (bank of banks; track bank.id) {
+                            <div class="bank-card" [class.selected]="selectedBank === bank.id"
+                                (click)="selectedBank = bank.id">
+                                <span>{{ bank.name }}</span>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    }
+
+                    <!-- Cash on Delivery Form -->
+                    @if (selectedMethod() === 'cash') {
+                    <div class="payment-form-pane">
+                        <h4>Cash on Delivery (COD)</h4>
+                        <p class="cod-desc">Please keep exact change ready to help our delivery executive complete your
+                            contactless delivery smoothly.</p>
+                        <div class="cod-badge">✨ No extra charges for COD</div>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Right: Final Bill Summary & Pay Action -->
+            <div class="payment-summary-section">
+                <div class="summary-card">
+                    <h3>Payment Summary</h3>
+                    <div class="summary-row">
+                        <span>Items Total</span>
+                        <span>₹{{ cartService.itemTotal() }}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery Fee</span>
+                        <span>₹{{ cartService.deliveryFee() }}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Taxes (5%)</span>
+                        <span>₹{{ cartService.taxes() }}</span>
+                    </div>
+                    <hr class="divider" />
+                    <div class="summary-row grand-total">
+                        <span>Amount Payable</span>
+                        <span>₹{{ cartService.grandTotal() }}</span>
+                    </div>
+
+                    <button class="btn pay-now-btn" (click)="payNow()">
+                        Pay ₹{{ cartService.grandTotal() }} 🔒
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        }
+    </main>
+</div>

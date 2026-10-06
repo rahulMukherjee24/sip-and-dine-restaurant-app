@@ -1,0 +1,76 @@
+<div class="basket-container">
+    <!-- Header -->
+    <header class="basket-header">
+        <button class="back-btn" (click)="goBackToMenu()">← Back to Menu</button>
+        <h2>Review Your Basket 🛒</h2>
+    </header>
+
+    <main class="basket-content">
+        @if (cartService.basketItems().length === 0) {
+        <div class="empty-basket">
+            <span class="empty-icon">🍽️</span>
+            <h3>Your basket is empty</h3>
+            <p>Explore our menu and add some delicious meals!</p>
+            <button class="btn primary-btn" (click)="goBackToMenu()">Browse Menu</button>
+        </div>
+        } @else {
+        <div class="basket-grid-layout">
+            <!-- Left: Item List for Modification -->
+            <div class="items-section">
+                <h3>Items in Cart ({{ cartService.basketItems().length }})</h3>
+
+                <div class="basket-items-list">
+                    @for (item of cartService.basketItems(); track item.id) {
+                    <div class="basket-item-card">
+                        <img [src]="item.image" [alt]="item.name" />
+                        <div class="item-details">
+                            <h4>{{ item.name }}</h4>
+                            <span class="item-price">₹{{ item.price }} each</span>
+                        </div>
+
+                        <!-- Quantity Modifiers (+ / -) -->
+                        <div class="counter-control">
+                            <button class="counter-btn" (click)="decrease(item.id)">-</button>
+                            <span class="counter-value">{{ item.quantity }}</span>
+                            <button class="counter-btn add-btn" (click)="increase(item.id)">+</button>
+                        </div>
+
+                        <div class="item-subtotal">
+                            ₹{{ item.price * item.quantity }}
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Right: Bill Details & Checkout Action -->
+            <div class="bill-summary-section">
+                <div class="bill-card">
+                    <h3>Bill Details</h3>
+                    <div class="bill-row">
+                        <span>Item Total</span>
+                        <span>₹{{ cartService.itemTotal() }}</span>
+                    </div>
+                    <div class="bill-row">
+                        <span>Delivery Fee</span>
+                        <span>₹{{ cartService.deliveryFee() }}</span>
+                    </div>
+                    <div class="bill-row">
+                        <span>Taxes & Charges (5%)</span>
+                        <span>₹{{ cartService.taxes() }}</span>
+                    </div>
+                    <hr class="divider" />
+                    <div class="bill-row grand-total">
+                        <span>To Pay</span>
+                        <span>₹{{ cartService.grandTotal() }}</span>
+                    </div>
+
+                    <button class="btn checkout-btn" (click)="proceedToAddress()">
+                        Proceed to Address ➔
+                    </button>
+                </div>
+            </div>
+        </div>
+        }
+    </main>
+</div>
